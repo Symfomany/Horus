@@ -207,3 +207,4 @@ Authors
 
 Horus CMF was originally created by [Symfomany]
 See the list of [contributors](https://github.com/HorusCMF/Shop/graphs/contributors).
+
