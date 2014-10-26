@@ -1,4 +1,4 @@
-Horus CMF Shop
+Horus CMF Shop 2.0
 ======
 [![Build Status](https://travis-ci.org/HorusCMF/Shop.png?branch=master)](https://travis-ci.org/HorusCMF/Shop)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/HorusCMF/Shop/badges/quality-score.png?s=69e973febd5f8f132b22fcd129f70e0ae790fd7d)](https://scrutinizer-ci.com/g/HorusCMF/Shop/)
@@ -20,13 +20,9 @@ Philosophy: **Minimalist** features, **Collaborative** in real time, **Maintaina
 Screenshots
 ------------------
 
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/MainScreen.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen2.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen3.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen4.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen5.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen6.png)
-![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/Screen7.png)
+![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/capture1.png)
+![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/capture2.png)
+![ScreenShot](https://raw.github.com/HorusCMF/Shop/master/screenshots/capture3.png)
 
 Documentation
 -------------
@@ -47,9 +43,7 @@ $ php app/console HorusCMF:install
 Requirements
 ---------------
 
-* Mongo DB
 * Elastic Search
-* Node JS
 * Composer
 * Symfony 2
 
@@ -147,9 +141,7 @@ You can read about install instructions in the Symfony2 Cookbook(http://symfony.
 - Based on Powerfully Symfony 2
 - MVC Structure
 - ORM Database with Doctrine 2
-- ODM NoSQL with Mongo
 - Elastic search to the Cloud Big Datas
-- Real-Time App with Node
 - Flexible views with Twig Template Engine
 - Acceptance, Unit & Fct Tests with Codeception
 - Form Classes in services

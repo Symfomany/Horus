@@ -1,36 +1,34 @@
-#jms_security_extra:
-#    secure_all_services: true
-#    expressions: true
+jms_security_extra:
+    secure_all_services: true
+    expressions: true
 
 security:
     access_denied_url:  /access-denied
 
     encoders:
-       site:
-         class:  Horus\SiteBundle\Entity\Administrateur
-         algorithm: sha512
-         encode-as-base64: true
-         iterations: 10
+       FOS\UserBundle\Model\UserInterface: sha512
 
     providers:
-      chain_provider:
-          chain:
-              providers: [site]
-      site:
-        entity: { class: HorusSiteBundle:Administrateur, property: email }
+       fos_userbundle:
+          id: fos_user.user_provider.username_email
 
     firewalls:
       dev:
         pattern:  ^/(_(profiler|wdt)|css|images|js)/
         security: false
-      login_firewall:
-        pattern:    ^/login
-        security:  false
-      site:
-       pattern:    ^/backend
-       security: true
+
+      login:
+        pattern:  ^/login$
+        security: false
+        remember_me:
+          key: "%secret%"
+          lifetime: 31536000 # 365 days in seconds
+          path: /
+          domain: ~ # Defaults to the current domain from $_SERVER
+
+      backend:
+       pattern:    ^/administration
        switch_user: { role: ROLE_ADMIN, parameter: compte_switch }
-       provider: site
        remember_me:
          always_remember_me: true
          key:      g46hqs4d9jqsdsd6g54h6sdyfhgadphfhgdldhjjhgjgm46sdfshg5qd1o
@@ -38,20 +36,24 @@ security:
          path:     /
          domain:   ~ #Defaults to the current domain from $_SERVER
        form_login:
-         success_handler:  success_handler_site
+         provider:               fos_userbundle
+         csrf_provider:          form.csrf_provider
          login_path:  /login
-         check_path:  /backend/login_check
+         check_path:  /administration/login_check
          remember_me: true
+         always_use_default_target_path: false
+         default_target_path:            /administration
+         target_path_parameter:          _target_path
+         use_referer:                    false
        logout:
-         success_handler: success_handler_site
-         path:   /backend/logout
+         path:   /administration/logout
          target: /
          invalidate_session: false
 
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backend, roles: [ROLE_ADMIN, ROLE_LOGISTIC,ROLE_CLIENT,ROLE_TRANSPORTEUR,ROLE_MARQUE,  ROLE_REDACTEUR, ROLE_TRADUCTEUR, ROLE_COMMERCIAL] }
+        - { path: ^/administration, roles: [ROLE_ADMIN, ROLE_LOGISTIC,ROLE_CLIENT,ROLE_TRANSPORTEUR,ROLE_MARQUE,  ROLE_REDACTEUR, ROLE_TRADUCTEUR, ROLE_COMMERCIAL] }
     #        - { path: ^/partenaires/administration, roles: ROLE_PARTENAIRE }
     #        - { path: ^/administrator/, roles: ROLE_ADMIN }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

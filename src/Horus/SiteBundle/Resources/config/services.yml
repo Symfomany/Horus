@@ -1,7 +1,0 @@
-parameters:
-#    horus_site.example.class: Horus\SiteBundle\Example
-
-services:
-#    horus_site.example:
-#        class: %horus_site.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

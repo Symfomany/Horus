@@ -1,13 +1,11 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: '@HorusSiteBundle/Resources/config/config.yml' }
-    - { resource: '@HorusSiteBundle/Resources/config/services.xml' }
-#    - { resource: "@HorusSiteBundle/Resources/config/services.xml" }
+    - { resource: '@HorusBackendBundle/Resources/config/config.yml' }
 
 framework:
     esi:             ~
-    translator:      { fallback: de }
+    translator:      ~
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -17,7 +15,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        hinclude_default_template: HorusSiteBundle::hinclude.html.twig
+        hinclude_default_template: HorusBackendBundle::hinclude.html.twig
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
@@ -31,7 +29,7 @@ twig:
     strict_variables: %kernel.debug%
     form:
       resources:
-          - 'HorusSiteBundle:Slots:forms.html.twig'
+          - 'HorusBackendBundle:Slots:forms.html.twig'
 
 
 
@@ -39,7 +37,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        ["HorusSiteBundle"]
+    bundles:        ["HorusBackendBundle", "HorusFrontBundle"]
     #java: /usr/bin/java
     filters:
          cssrewrite: ~
@@ -49,8 +47,8 @@ assetic:
 #            node: /usr/local/bin/node
 #            node_paths: [/usr/local/lib/node, /usr/local/lib/node_modules]
          coffee:
-            bin: /usr/bin/coffee
-            node: /usr/bin/node
+            bin: /usr/local/lib/node_modules/coffee-script
+            node: /usr/bin/nodejs
             apply_to: "\.coffee$"
          sass:
             bin: /usr/local/bin/sass
@@ -92,16 +90,16 @@ doctrine:
         default:
           dql:
            datetime_functions:
-               datediff: Horus\SiteBundle\AST\Functions\DateDiff
-               dateformat: Horus\SiteBundle\AST\Functions\DateFormat
-               day: Horus\SiteBundle\AST\Functions\Day
+               datediff: Horus\BackendBundle\AST\Functions\DateDiff
+               dateformat: Horus\BackendBundle\AST\Functions\DateFormat
+               day: Horus\BackendBundle\AST\Functions\Day
            numeric_functions:
-               geo:  Horus\SiteBundle\AST\Functions\Geo
-               age:  Horus\SiteBundle\AST\Functions\Age
-               round:  Horus\SiteBundle\AST\Functions\Round
+               geo:  Horus\BackendBundle\AST\Functions\Geo
+               age:  Horus\BackendBundle\AST\Functions\Age
+               round:  Horus\BackendBundle\AST\Functions\Round
           connection:       default
           mappings:
-            HorusSiteBundle: ~
+            HorusBackendBundle: ~
             HorusFrontBundle: ~
             gedmo_tree:
               type: annotation
@@ -139,10 +137,12 @@ services:
        tags:
            - { name: twig.extension }
     project.twig.extension:
-       class:  Horus\SiteBundle\Extension\Twig\MyTwigExtension
+       class:  Horus\BackendBundle\Extension\Twig\MyTwigExtension
        tags:
            -  { name: twig.extension }
 
+
+# Extra security
 jms_security_extra:
     # Whether you want to secure all services (true), or only secure specific
     # services (false); see also below
@@ -155,6 +155,7 @@ jms_security_extra:
     # Enables expression language
     expressions: true
 
+#KNP Paginator
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
     default_options:
@@ -163,19 +164,16 @@ knp_paginator:
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
-        pagination: HorusSiteBundle:Slots:pagination.html.twig     # sliding pagination controls template
+        pagination: HorusBackendBundle:Slots:pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Default:pagination.html.twig # sort link template
 
-doctrine_mongodb:
-    connections:
-        default:
-            server: mongodb://localhost:27017
-            options: {}
-    default_database: horus
-    document_managers:
-        default:
-            auto_mapping: true
+# FOS User
+fos_user:
+    db_driver: orm
+    firewall_name: backend
+    user_class: Horus\BackendBundle\Entity\Administrateur
 
+#FOS Elastica
 fos_elastica:
     default_manager: orm
     clients:
@@ -202,8 +200,8 @@ fos_elastica:
                          description: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Article
-                    repository: Horus\SiteBundle\Entity\ArticleRepository
+                    model: Horus\BackendBundle\Entity\Article
+                    repository: Horus\BackendBundle\Entity\ArticleRepository
                     provider:
                         query_builder_method: createIsActiveQueryBuilder
                     finder: ~
@@ -224,8 +222,8 @@ fos_elastica:
                        content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Marques
-                    repository: Horus\SiteBundle\Entity\MarquesRepository
+                    model: Horus\BackendBundle\Entity\Marques
+                    repository: Horus\BackendBundle\Entity\MarquesRepository
                     provider:
                         query_builder_method: getActivePageQueryBuilder
                     finder: ~
@@ -242,8 +240,8 @@ fos_elastica:
                     email: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Client
-                    repository: Horus\SiteBundle\Entity\ClientRepository
+                    model: Horus\BackendBundle\Entity\Client
+                    repository: Horus\BackendBundle\Entity\ClientRepository
                     provider:
                         query_builder_method: getActivePageQueryBuilder
                     finder: ~
@@ -263,8 +261,8 @@ fos_elastica:
                      content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Fournisseurs
-                    repository: Horus\SiteBundle\Entity\FournisseursRepository
+                    model: Horus\BackendBundle\Entity\Fournisseurs
+                    repository: Horus\BackendBundle\Entity\FournisseursRepository
                     provider:
                         query_builder_method: getActivePageQueryBuilder
                     finder: ~
@@ -284,8 +282,8 @@ fos_elastica:
                          content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Category
-                    repository: Horus\SiteBundle\Entity\CategoryRepository
+                    model: Horus\BackendBundle\Entity\Category
+                    repository: Horus\BackendBundle\Entity\CategoryRepository
                     provider:
                         query_builder_method: getActiveCategoryQueryBuilder
                     finder: ~
@@ -296,8 +294,8 @@ fos_elastica:
                     content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Commercial
-                    repository: Horus\SiteBundle\Entity\CommercialRepository
+                    model: Horus\BackendBundle\Entity\Commercial
+                    repository: Horus\BackendBundle\Entity\CommercialRepository
                     provider:
                         query_builder_method: getActiveCommercialQueryBuilder
                     finder: ~
@@ -318,8 +316,8 @@ fos_elastica:
                          content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Famille
-                    repository: Horus\SiteBundle\Entity\FamilleRepository
+                    model: Horus\BackendBundle\Entity\Famille
+                    repository: Horus\BackendBundle\Entity\FamilleRepository
                     provider:
                         query_builder_method: getActiveFamilleQueryBuilder
                     finder: ~
@@ -330,8 +328,8 @@ fos_elastica:
                     cover: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Image
-                    repository: Horus\SiteBundle\Entity\ImageRepository
+                    model: Horus\BackendBundle\Entity\Image
+                    repository: Horus\BackendBundle\Entity\ImageRepository
                     provider:
                         query_builder_method: getActiveImageQueryBuilder
                     finder: ~
@@ -351,8 +349,8 @@ fos_elastica:
                          content: { type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Page
-                    repository: Horus\SiteBundle\Entity\PageRepository
+                    model: Horus\BackendBundle\Entity\Page
+                    repository: Horus\BackendBundle\Entity\PageRepository
                     provider:
                         query_builder_method: getActivePageQueryBuilder
                     finder: ~
@@ -397,8 +395,8 @@ fos_elastica:
                     prixTTC: { type: float }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Produit
-                    repository: Horus\SiteBundle\Entity\ProduitRepository
+                    model: Horus\BackendBundle\Entity\Produit
+                    repository: Horus\BackendBundle\Entity\ProduitRepository
                     provider:
                         query_builder_method: getActiveProduitQueryBuilder
                     finder: ~
@@ -408,8 +406,8 @@ fos_elastica:
                     word: {type: string }
                 persistence:
                     driver: orm
-                    model: Horus\SiteBundle\Entity\Tag
-                    repository: Horus\SiteBundle\Entity\CategoryRepository
+                    model: Horus\BackendBundle\Entity\Tag
+                    repository: Horus\BackendBundle\Entity\CategoryRepository
                     provider:
                         query_builder_method: getTags
                     finder: ~

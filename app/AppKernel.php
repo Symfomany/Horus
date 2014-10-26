@@ -8,6 +8,8 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+
+            # Core Bundles
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -16,7 +18,8 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Horus\SiteBundle\HorusSiteBundle(),
+
+            # Third Bundles
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
@@ -25,9 +28,13 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
-            new Horus\FrontBundle\HorusFrontBundle()
+            new FOS\UserBundle\FOSUserBundle(),
+
+            # Store Bundle
+            new Horus\FrontBundle\HorusFrontBundle(),
+            new Horus\BackendBundle\HorusBackendBundle()
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

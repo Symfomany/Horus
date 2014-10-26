@@ -2,9 +2,16 @@
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Composer\Autoload\ClassLoader;
+use Symfony\Component\VarDumper\VarDumper;
 
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
-
+if (!function_exists('dump')) {
+    function dump($var)
+    {
+        foreach (func_get_args() as $var) {
+            VarDumper::dump($var);
+        }
+    }
+}
 
 /**
  * @var ClassLoader $loader
@@ -12,6 +19,5 @@ use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 $loader = require __DIR__.'/../vendor/autoload.php';
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-AnnotationDriver::registerAnnotationClasses();
 
 return $loader;

@@ -13,14 +13,3 @@ _configurator:
 
 _main:
     resource: routing.yml
-
-
-login:
-  pattern:  /login
-  defaults: { _controller: HorusSiteBundle:Administrateur:login }
-
-login_check:
-  pattern:   /backend/login_check
-
-logout:
-  pattern:   /backend/logout

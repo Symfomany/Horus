@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hetic.iml" filepath="$PROJECT_DIR$/.idea/hetic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/horuscmf.iml" filepath="$PROJECT_DIR$/.idea/horuscmf.iml" />
     </modules>
   </component>
 </project>

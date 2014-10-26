@@ -7,9 +7,9 @@ class ProduitsCest
 //    public function persistOnArticle(WebGuy $I) {
 //        $I->wantTo('Enregistrer un article');
 //        $em = $I->grabServiceFromContainer('doctrine');
-//        $category = $em->getRepository('HeticSiteBundle:Category')->find(1);
+//        $category = $em->getRepository('HeticBackendBundle:Category')->find(1);
 //        $I->expect($category->getName());
-//        $article = new \Hetic\SiteBundle\Entity\Article();
+//        $article = new \Hetic\BackendBundle\Entity\Article();
 //        $article->setTitle("C'est un essai!");
 //        $em = $em->getManager();
 //        $em->persist($article);
